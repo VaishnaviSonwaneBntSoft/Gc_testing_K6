@@ -51,6 +51,7 @@ jobs:
       - name: Run G1GC Container
         run: |
           docker compose up -d gc-testing-app-g1gc-k6
+          docker ps
 
       # Wait for application startup
       - name: Wait for G1GC Application to start
@@ -81,6 +82,7 @@ jobs:
       - name: Run ZGC Container
         run: |
           docker compose up -d gc-testing-app-zgc-k6
+          docker ps
 
       # Wait for application startup
       - name: Wait for ZGC Application to start
@@ -92,7 +94,7 @@ jobs:
           touch ${{ github.workspace }}/results/zgc_results.json
           chmod 777 ${{ github.workspace }}/results/zgc_results.json
           
-          # Run K6 tests for ZGC
+       # Run K6 tests for ZGC
       - name: Run K6 Tests (ZGC)
         run: |
           docker run --network test-network-k6 \
