@@ -45,7 +45,7 @@ jobs:
 
       # Create Docker network
       - name: Create network
-        run: docker network create test-network
+        run: docker network create test-network-k6
 
       # Build and start the G1GC container
       - name: Run G1GC Container
