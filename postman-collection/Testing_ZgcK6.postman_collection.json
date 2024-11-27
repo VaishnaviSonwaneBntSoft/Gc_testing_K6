@@ -11,7 +11,7 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "gc-testing-app-g1gc-k6:8080/gc/k6/hello-world"
+				"url": "gc-testing-app-zgc-k6:8080/gc/k6/hello-world"
 			},
 			"response": []
 		}
