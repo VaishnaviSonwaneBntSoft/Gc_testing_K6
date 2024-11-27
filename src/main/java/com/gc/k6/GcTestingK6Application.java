@@ -17,9 +17,11 @@ public class GcTestingK6Application {
 
 }
 
+@RestController
 @RequestMapping("/gc/k6/hello-world")
 class HelloWorld
 {
+	@GetMapping
 	public ResponseEntity<String> helloWorld()
 	{
 		return ResponseEntity.ok("Hello World");

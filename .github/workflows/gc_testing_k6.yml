@@ -55,7 +55,7 @@ jobs:
 
       # Wait for application startup
       - name: Wait for G1GC Application to start
-        run: sleep 5
+        run: sleep 10
 
       - name: Create Results File
         run: |
@@ -63,7 +63,7 @@ jobs:
           touch ${{ github.workspace }}/results/g1gc_results.json
           chmod 777 ${{ github.workspace }}/results/g1gc_results.json
           
-          # Run K6 tests for G1GC
+      # Run K6 tests for G1GC
       - name: Run K6 Tests (G1GC)
         run: |
           docker run --network test-network-k6 \
@@ -86,7 +86,7 @@ jobs:
 
       # Wait for application startup
       - name: Wait for ZGC Application to start
-        run: sleep 5
+        run: sleep 10
 
       - name: Create Results File
         run: |
@@ -110,13 +110,13 @@ jobs:
 
       # Publish Test Results
       - name: Publish G1GC Test Results to GitHub Packages
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: g1gc_results
           path: results/g1gc_results.json
 
       - name: Publish ZGC Test Results to GitHub Packages
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: zgc_results
           path: results/zgc_results.json
