@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: gc-testing-app-zgc-k6
+    container_name: gc-testing-app-g1gc-k6
     ports:
       - "8081:8080"
     networks:
