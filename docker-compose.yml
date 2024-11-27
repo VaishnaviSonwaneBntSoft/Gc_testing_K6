@@ -24,6 +24,6 @@ services:
       - ZGC_PARAMS=-XX:+UseZGC
 
 networks:
-  test-network:
+  test-network-k6:
     driver: bridge
     external: true
