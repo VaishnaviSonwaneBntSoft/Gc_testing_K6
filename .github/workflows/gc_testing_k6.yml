@@ -56,13 +56,18 @@ jobs:
       - name: Wait for G1GC Application to start
         run: sleep 5
 
-      # Run K6 tests for G1GC
+      - name: Create Results File
+        run: |
+          mkdir -p ${{ github.workspace }}/results
+          touch ${{ github.workspace }}/results/g1gc_results.json
+          
+          # Run K6 tests for G1GC
       - name: Run K6 Tests (G1GC)
         run: |
           docker run --network test-network-k6 \
             -v ${{ github.workspace }}/k6-scripts:/scripts \
             -v ${{ github.workspace }}/results:/results \
-            loadimpact/k6 run /scripts/g1gc_test.js \
+            grafana/k6 run /scripts/g1gc_test.js \
             --out json=/results/g1gc_results.json
 
       # Stop and remove the G1GC container
@@ -78,15 +83,20 @@ jobs:
 
       # Wait for application startup
       - name: Wait for ZGC Application to start
-        run: sleep 10
+        run: sleep 5
 
-      # Run K6 tests for ZGC
+      - name: Create Results File
+        run: |
+          mkdir -p ${{ github.workspace }}/results
+          touch ${{ github.workspace }}/results/zgc_results.json
+          
+          # Run K6 tests for ZGC
       - name: Run K6 Tests (ZGC)
         run: |
           docker run --network test-network-k6 \
             -v ${{ github.workspace }}/k6-scripts:/scripts \
             -v ${{ github.workspace }}/results:/results \
-            loadimpact/k6 run /scripts/zgc_test.js \
+            grafana/k6 run /scripts/zgc_test.js \
             --out json=/results/zgc_results.json
 
       # Stop and remove the ZGC container
