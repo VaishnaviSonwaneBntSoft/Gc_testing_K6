@@ -1,0 +1,114 @@
+name: Comparison of Garbage Collectors
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    env:
+      IMAGE_NAME: "gc-testing-image"
+      APP_PORT: 8080
+      G1GC_PARAMS: "-XX:+UseG1GC"
+      ZGC_PARAMS: "-XX:+UseZGC"
+
+    steps:
+      # Checkout the repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Create results directory
+      - name: Create directory dynamically
+        run: |
+          mkdir -p $(pwd)/results
+          echo "Directory created"
+
+      # Set up Java 21
+      - name: Set up Java 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: 21
+          distribution: 'temurin'
+
+      # Set up Gradle
+      - name: Set up Gradle
+        uses: gradle/wrapper-validation-action@v1
+
+      # Make Gradlew executable
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      # Build the JAR file
+      - name: Build the JAR file
+        run: ./gradlew build
+
+      # Create Docker network
+      - name: Create network
+        run: docker network create test-network
+
+      # Build and start the G1GC container
+      - name: Run G1GC Container
+        run: |
+          docker compose up -d gc-testing-app-g1gc-k6
+
+      # Wait for application startup
+      - name: Wait for G1GC Application to start
+        run: sleep 5
+
+      # Run K6 tests for G1GC
+      - name: Run K6 Tests (G1GC)
+        run: |
+          docker run --network test-network \
+            -v ${{ github.workspace }}/k6-scripts:/scripts \
+            -v ${{ github.workspace }}/results:/results \
+            loadimpact/k6 run /scripts/g1gc_test.js \
+            --out json=/results/g1gc_results.json
+
+      # Stop and remove the G1GC container
+      - name: Stop and Remove G1GC Container
+        run: |
+          docker compose down --remove-orphans
+          docker rm -f $(docker ps -aq)
+
+      # Build and start the ZGC container
+      - name: Run ZGC Container
+        run: |
+          docker compose up -d gc-testing-app-zgc-k6
+
+      # Wait for application startup
+      - name: Wait for ZGC Application to start
+        run: sleep 10
+
+      # Run K6 tests for ZGC
+      - name: Run K6 Tests (ZGC)
+        run: |
+          docker run --network test-network \
+            -v ${{ github.workspace }}/k6-scripts:/scripts \
+            -v ${{ github.workspace }}/results:/results \
+            loadimpact/k6 run /scripts/zgc_test.js \
+            --out json=/results/zgc_results.json
+
+      # Stop and remove the ZGC container
+      - name: Stop and Remove ZGC Container
+        run: |
+          docker compose down --remove-orphans
+
+      # Publish Test Results
+      - name: Publish G1GC Test Results to GitHub Packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: g1gc_results
+          path: results/g1gc_results.json
+
+      - name: Publish ZGC Test Results to GitHub Packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: zgc_results
+          path: results/zgc_results.json
