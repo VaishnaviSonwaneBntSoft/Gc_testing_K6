@@ -1,0 +1,19 @@
+{
+	"info": {
+		"_postman_id": "5e9e9514-afb3-4393-a785-b00a171c8200",
+		"name": "Testing_K6",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "36218102"
+	},
+	"item": [
+		{
+			"name": "localhost:8081/gc/k6/hello-world",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8081/gc/k6/hello-world"
+			},
+			"response": []
+		}
+	]
+}
