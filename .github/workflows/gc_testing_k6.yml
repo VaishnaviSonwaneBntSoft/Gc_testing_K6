@@ -60,6 +60,7 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/results
           touch ${{ github.workspace }}/results/g1gc_results.json
+          chmod 777 ${{ github.workspace }}/results/g1gc_results.json
           
           # Run K6 tests for G1GC
       - name: Run K6 Tests (G1GC)
@@ -89,6 +90,7 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/results
           touch ${{ github.workspace }}/results/zgc_results.json
+          chmod 777 ${{ github.workspace }}/results/zgc_results.json
           
           # Run K6 tests for ZGC
       - name: Run K6 Tests (ZGC)
