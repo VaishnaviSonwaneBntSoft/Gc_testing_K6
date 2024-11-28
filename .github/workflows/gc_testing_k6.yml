@@ -79,11 +79,14 @@ jobs:
       # Run K6 tests for G1GC
       - name: Run K6 Tests (G1GC)
         run: |
-          docker run --network test-network-k6 \
-            -v ${{ github.workspace }}/k6-scripts:/scripts \
-            -v ${{ github.workspace }}/results:/results \
-            grafana/k6 run /scripts/g1gc_test.js \
-            --out json=/results/g1gc_results.json
+          docker run --rm \
+          --network test-network-k6 \
+          -v ${{ github.workspace }}/k6-scripts:/scripts \
+          -v ${{ github.workspace }}/results:/results \
+          -w /results \
+          grafana/k6:latest run \
+          --summary-export=g1gc_results.json \
+          /scripts/g1gc_results.js
           
           docker logs gc-testing-app-g1gc-k6
 
@@ -128,11 +131,14 @@ jobs:
       # Run K6 tests for ZGC
       - name: Run K6 Tests (ZGC)
         run: |
-          docker run --network test-network-k6-2 \
-            -v ${{ github.workspace }}/k6-scripts:/scripts \
-            -v ${{ github.workspace }}/results:/results \
-            grafana/k6 run /scripts/zgc_test.js \
-            --out json=/results/zgc_results.json
+          docker run --rm \
+          --network test-network-k6 \
+          -v ${{ github.workspace }}/k6-scripts:/scripts \
+          -v ${{ github.workspace }}/results:/results \
+          -w /results \
+          grafana/k6:latest run \
+          --summary-export=zgc_results.json \
+          /scripts/zgc_test.js
           
           docker logs gc-testing-app-zgc-k6
 
