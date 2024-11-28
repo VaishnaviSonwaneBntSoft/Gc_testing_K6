@@ -16,8 +16,8 @@ jobs:
     env:
       IMAGE_NAME: "gc-testing-image"
       APP_PORT: 8080
-      G1GC_PARAMS: "-XX:+UseG1GC"
-      ZGC_PARAMS: "-XX:+UseZGC"
+      G1GC_PARAMS: "-XX:+UseG1GC -XX:+UnlockDiagnosticVMOptions -XX:+PrintGCDetails"
+      ZGC_PARAMS: "-XX:+UseZGC -XX:+UnlockDiagnosticVMOptions -XX:+LogGC"
 
     steps:
       # Checkout the repository
@@ -56,7 +56,7 @@ jobs:
       # Wait for G1GC service to be ready
       - name: Wait for G1GC Application to start
         run: |
-          max_attempts=30
+          max_attempts=50
           attempt=0
           while [ $attempt -lt $max_attempts ]; do
           if docker run --network test-network-k6 curlimages/curl:latest curl -s http://gc-testing-app-g1gc-k6:8080/gc/k6/hello-world; then
@@ -88,6 +88,13 @@ jobs:
             -v ${{ github.workspace }}/results:/results \
             grafana/k6 run /scripts/g1gc_test.js \
             --out json=/results/g1gc_results.json
+
+      # Upload G1GC Logs as Artifact
+      - name: Upload G1GC Logs Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: g1gc_logs
+          path: ./g1gc.log
 
       # Stop and remove the G1GC container
       - name: Stop and Remove G1GC Container
@@ -140,6 +147,13 @@ jobs:
             -v ${{ github.workspace }}/results:/results \
             grafana/k6 run /scripts/zgc_test.js \
             --out json=/results/zgc_results.json
+
+      # Upload ZGC Logs as Artifact
+      - name: Upload ZGC Logs Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: zgc_logs
+          path: ./zgc.log
 
       # Stop and remove the ZGC container
       - name: Stop and Remove ZGC Container
