@@ -82,7 +82,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: g1gc_logs
-          path: ./g1gc.log
+          path: g1gc.log
 
       # Stop and remove the G1GC container
       - name: Stop and Remove G1GC Container
@@ -121,7 +121,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: zgc_logs
-          path: ./zgc.log
+          path: zgc.log
 
       # Stop and remove the ZGC container
       - name: Stop and Remove ZGC Container
