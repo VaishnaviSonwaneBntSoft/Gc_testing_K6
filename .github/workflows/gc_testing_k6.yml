@@ -78,7 +78,7 @@ jobs:
       # Run K6 tests for G1GC
       - name: Run K6 Tests (G1GC)
         run: |
-          docker run --rm \
+          docker run \
           --network test-network-k6 \
           -v ${{ github.workspace }}/k6-scripts:/scripts \
           -v ${{ github.workspace }}/results:/results \
@@ -129,7 +129,7 @@ jobs:
       # Run K6 tests for ZGC
       - name: Run K6 Tests (ZGC)
         run: |
-          docker run --rm \
+          docker run \
           --network test-network-k6-2 \
           -v ${{ github.workspace }}/k6-scripts:/scripts \
           -v ${{ github.workspace }}/results:/results \
