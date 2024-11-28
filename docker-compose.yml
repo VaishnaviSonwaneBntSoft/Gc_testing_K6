@@ -13,7 +13,7 @@ services:
     environment:
       - G1GC_PARAMS=-XX:+UseG1GC -XX:+UnlockDiagnosticVMOptions -XX:+PrintGCDetails -Xloggc:/logs/g1gc.log
     volumes:
-      - ${GITHUB_WORKSPACE}:/logs
+      - ${GITHUB_WORKSPACE}/logs:/logs
 
   gc-testing-app-zgc-k6:
     build:
@@ -27,7 +27,7 @@ services:
     environment:
       - ZGC_PARAMS=-XX:+UseZGC -XX:+UnlockDiagnosticVMOptions -XX:+LogGC -Xloggc:/logs/zgc.log
     volumes:
-      - ${GITHUB_WORKSPACE}:/logs
+      - ${GITHUB_WORKSPACE}/logs:/logs
 
 networks:
   test-network-k6-2:

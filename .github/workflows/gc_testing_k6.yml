@@ -51,6 +51,12 @@ jobs:
       - name: Create docker network for zgc
         run: docker network create test-network-k6-2
 
+      #create log directory
+      - name: Create directory to save logs
+        run: mkdir -p ${{ github.workspace }}/logs
+          touch ${{ github.workspace }}/logs/g1gc.logs
+          chmod 777 ${{ github.workspace }}/logs/g1gc.logs
+
       # Build and start the G1GC container
       - name: Run G1GC Container
         run: |
@@ -92,6 +98,12 @@ jobs:
           docker compose down --remove-orphans
           docker rm -f $(docker ps -aq)
 
+      #create log directory
+      - name: Create directory to save logs
+        run: mkdir -p ${{ github.workspace }}/logs
+          touch ${{ github.workspace }}/logs/zgc.logs
+          chmod 777 ${{ github.workspace }}/logs/zgc.logs
+
       # Build and start the ZGC container
       - name: Run ZGC Container
         run: |
@@ -108,7 +120,7 @@ jobs:
       - name: Create Results File for ZGC
         run: |
           mkdir -p ${{ github.workspace }}/results
-           touch ${{ github.workspace }}/results/zgc_results.json
+          touch ${{ github.workspace }}/results/zgc_results.json
           chmod 777 ${{ github.workspace }}/results/zgc_results.json
 
       # Run K6 tests for ZGC
@@ -119,6 +131,8 @@ jobs:
             -v ${{ github.workspace }}/results:/results \
             grafana/k6 run /scripts/zgc_test.js \
             --out json=/results/zgc_results.json
+          
+          docker logs gc-testing-app-g1gc-k6
 
       # Upload ZGC Logs as Artifact
       - name: Upload ZGC Logs Artifact
