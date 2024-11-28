@@ -35,3 +35,4 @@ networks:
     external: true
   test-network-k6:
     driver: bridge
+    external: true

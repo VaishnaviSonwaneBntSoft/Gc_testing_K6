@@ -46,7 +46,7 @@ jobs:
       # Create Docker network
       - name: Create network
         run: docker network create test-network-k6
-      
+
       #Create docker network
       - name: Create docker network for zgc
         run: docker network create test-network-k6-2
