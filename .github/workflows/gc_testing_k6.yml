@@ -86,7 +86,7 @@ jobs:
           -w /results \
           grafana/k6:latest run \
           --summary-export=g1gc_results.json \
-          /scripts/g1gc_results.js
+          /scripts/g1gc_test.js
           
           docker logs gc-testing-app-g1gc-k6
 
