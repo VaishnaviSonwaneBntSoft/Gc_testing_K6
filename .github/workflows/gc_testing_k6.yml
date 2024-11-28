@@ -75,7 +75,6 @@ jobs:
           mkdir -p ${{ github.workspace }}/results
           touch ${{ github.workspace }}/results/g1gc_results.json
           chmod 777 ${{ github.workspace }}/results/g1gc_results.json
-
       # Run K6 tests for G1GC
       - name: Run K6 Tests (G1GC)
         run: |
@@ -86,7 +85,6 @@ jobs:
             --out json=/results/g1gc_results.json
           
           docker logs gc-testing-app-g1gc-k6
-
       # Upload G1GC Logs as Artifact
       - name: Upload G1GC Logs Artifact
         uses: actions/upload-artifact@v4
@@ -99,7 +97,6 @@ jobs:
         run: |
           docker compose down --remove-orphans
           docker rm -f $(docker ps -aq)
-
       #create log directory
       - name: Create directory to save logs
         run: mkdir -p ${{ github.workspace }}/logs
@@ -124,7 +121,6 @@ jobs:
           mkdir -p ${{ github.workspace }}/results
           touch ${{ github.workspace }}/results/zgc_results.json
           chmod 777 ${{ github.workspace }}/results/zgc_results.json
-
       # Run K6 tests for ZGC
       - name: Run K6 Tests (ZGC)
         run: |
@@ -135,7 +131,6 @@ jobs:
             --out json=/results/zgc_results.json
           
           docker logs gc-testing-app-zgc-k6
-
       # Upload ZGC Logs as Artifact
       - name: Upload ZGC Logs Artifact
         uses: actions/upload-artifact@v4
@@ -147,7 +142,6 @@ jobs:
       - name: Stop and Remove ZGC Container
         run: |
           docker compose down --remove-orphans
-
       # Publish Test Results
       - name: Publish G1GC Test Results to GitHub Packages
         uses: actions/upload-artifact@v4
