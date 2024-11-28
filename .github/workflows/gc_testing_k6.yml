@@ -96,6 +96,10 @@ jobs:
            touch ${{ github.workspace }}/results/zgc_results.json
           chmod 777 ${{ github.workspace }}/results/zgc_results.json
 
+      #Create docker network
+      - name: Create docker network for zgc
+        run: docker network create test-network-k6-2
+
       # Run K6 tests for ZGC
       - name: Run K6 Tests (ZGC)
         run: |
