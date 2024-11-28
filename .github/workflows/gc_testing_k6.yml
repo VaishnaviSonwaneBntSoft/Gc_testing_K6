@@ -132,7 +132,7 @@ jobs:
       - name: Run K6 Tests (ZGC)
         run: |
           docker run --rm \
-          --network test-network-k6 \
+          --network test-network-k6-2 \
           -v ${{ github.workspace }}/k6-scripts:/scripts \
           -v ${{ github.workspace }}/results:/results \
           -w /results \
