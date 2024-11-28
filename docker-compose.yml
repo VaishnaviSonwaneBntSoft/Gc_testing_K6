@@ -32,5 +32,6 @@ services:
 networks:
   test-network-k6-2:
     driver: bridge
+    external: true
   test-network-k6:
     driver: bridge

@@ -46,6 +46,10 @@ jobs:
       # Create Docker network
       - name: Create network
         run: docker network create test-network-k6
+      
+      #Create docker network
+      - name: Create docker network for zgc
+        run: docker network create test-network-k6-2
 
       # Build and start the G1GC container
       - name: Run G1GC Container
@@ -85,10 +89,6 @@ jobs:
         run: |
           docker compose down --remove-orphans
           docker rm -f $(docker ps -aq)
-
-      #Create docker network
-      - name: Create docker network for zgc
-        run: docker network create test-network-k6-2
 
       # Build and start the ZGC container
       - name: Run ZGC Container
