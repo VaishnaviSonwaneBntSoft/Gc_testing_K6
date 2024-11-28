@@ -55,7 +55,7 @@ jobs:
 
       # Wait for G1GC service to be ready
       - name: Wait for G1GC Application to start
-        run: 5
+        run: sleep 5
 
       # Create Results File for G1GC
       - name: Create Results File for G1GC
@@ -98,7 +98,7 @@ jobs:
 
       # Wait for ZGC service to be ready
       - name: Wait for ZGC Application to start
-        run: 5
+        run: sleep 5
 
       # Create Results File for ZGC
       - name: Create Results File for ZGC
