@@ -59,7 +59,7 @@ jobs:
           max_attempts=30
           attempt=0
           while [ $attempt -lt $max_attempts ]; do
-            if docker run --rm --network test-network-k6 curlimages/curl:latest curl -s http://gc-testing-app-g1gc-k6:8080/api/health; then
+            if docker run --rm --network test-network-k6 curlimages/curl:latest curl -s http://gc-testing-app-zgc-k6:8080/gc/k6/hello-world; then
               echo "G1GC service is up and running!"
               break
             fi
@@ -77,7 +77,6 @@ jobs:
       - name: Create Results File for G1GC
         run: |
           mkdir -p ${{ github.workspace }}/results
-          touch ${{ github.workspace }}/results/g1gc_results.json
           chmod 777 ${{ github.workspace }}/results/g1gc_results.json
 
       # Run K6 tests for G1GC
@@ -107,7 +106,7 @@ jobs:
           max_attempts=30
           attempt=0
           while [ $attempt -lt $max_attempts ]; do
-            if docker run --rm --network test-network-k6 curlimages/curl:latest curl -s http://gc-testing-app-zgc-k6:8080/api/health; then
+            if docker run --rm --network test-network-k6 curlimages/curl:latest curl -s http://gc-testing-app-zgc-k6:8080/gc/k6/hello-world; then
               echo "ZGC service is up and running!"
               break
             fi
@@ -125,7 +124,6 @@ jobs:
       - name: Create Results File for ZGC
         run: |
           mkdir -p ${{ github.workspace }}/results
-          touch ${{ github.workspace }}/results/zgc_results.json
           chmod 777 ${{ github.workspace }}/results/zgc_results.json
 
       # Run K6 tests for ZGC
