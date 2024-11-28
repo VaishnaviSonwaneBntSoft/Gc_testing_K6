@@ -55,23 +55,7 @@ jobs:
 
       # Wait for G1GC service to be ready
       - name: Wait for G1GC Application to start
-        run: |
-          max_attempts=50
-          attempt=0
-          while [ $attempt -lt $max_attempts ]; do
-          if docker run --network test-network-k6 curlimages/curl:latest curl -s http://gc-testing-app-g1gc-k6:8080/gc/k6/hello-world; then
-          echo "Service is up and running!"
-          break
-          fi
-          echo "Waiting for service to be ready... (Attempt $((attempt+1))/$max_attempts)"
-          sleep 5
-          attempt=$((attempt+1))
-          done
-          if [ $attempt -eq $max_attempts ]; then
-          echo "Service did not become ready in time"
-          docker logs gc-testing-app-g1gc-k6
-          exit 1
-          fi
+        run: 5
 
       # Create Results File for G1GC
       - name: Create Results File for G1GC
@@ -114,23 +98,7 @@ jobs:
 
       # Wait for ZGC service to be ready
       - name: Wait for ZGC Application to start
-        run: |
-          max_attempts=30
-          attempt=0
-          while [ $attempt -lt $max_attempts ]; do
-          if docker run --network test-network-k6-2 curlimages/curl:latest curl -s http://gc-testing-app-zgc-k6:8080/gc/k6/hello-world; then
-          echo "Service is up and running!"
-          break
-          fi
-          echo "Waiting for service to be ready... (Attempt $((attempt+1))/$max_attempts)"
-          sleep 5
-          attempt=$((attempt+1))
-          done
-          if [ $attempt -eq $max_attempts ]; then
-          echo "Service did not become ready in time"
-          docker logs gc-testing-app-zgc-k6
-          exit 1
-          fi
+        run: 5
 
       # Create Results File for ZGC
       - name: Create Results File for ZGC
