@@ -7,7 +7,7 @@ export let options = {
 };
 
 export default function () {
-  let res = http.get('http://localhost:8085/gc/k6/hello-world');
+  let res = http.get('http://gc-testing-app-g1gc-k6:8080/gc/k6/hello-world');
 
   check(res, {
     'is status 200': (r) => r.status === 200
