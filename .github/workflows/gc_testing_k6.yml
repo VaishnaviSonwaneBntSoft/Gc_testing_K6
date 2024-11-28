@@ -56,6 +56,8 @@ jobs:
         run: |
           docker compose up -d gc-testing-app-g1gc-k6
           docker ps
+        env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}
 
       # Wait for G1GC service to be ready
       - name: Wait for G1GC Application to start
@@ -95,6 +97,8 @@ jobs:
         run: |
           docker compose up -d gc-testing-app-zgc-k6
           docker ps
+        env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}
 
       # Wait for ZGC service to be ready
       - name: Wait for ZGC Application to start
