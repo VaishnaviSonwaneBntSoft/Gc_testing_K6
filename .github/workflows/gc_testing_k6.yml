@@ -83,7 +83,7 @@ jobs:
             -v ${{ github.workspace }}/k6-scripts:/scripts \
             -v ${{ github.workspace }}/results:/results \
             grafana/k6 run /scripts/g1gc_test.js \
-            --summary-export json=/results/g1gc_results.json
+            --out json=/results/g1gc_results.json
           
           docker logs gc-testing-app-g1gc-k6
 
@@ -132,7 +132,7 @@ jobs:
             -v ${{ github.workspace }}/k6-scripts:/scripts \
             -v ${{ github.workspace }}/results:/results \
             grafana/k6 run /scripts/zgc_test.js \
-            --summary-export json=/results/zgc_results.json
+            --out json=/results/zgc_results.json
           
           docker logs gc-testing-app-zgc-k6
 
