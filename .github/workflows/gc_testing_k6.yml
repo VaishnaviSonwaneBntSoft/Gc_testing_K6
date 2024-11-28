@@ -99,7 +99,7 @@ jobs:
       # Run K6 tests for ZGC
       - name: Run K6 Tests (ZGC)
         run: |
-          docker run --network test-network-k6 \
+          docker run --network test-network-k6-2 \
             -v ${{ github.workspace }}/k6-scripts:/scripts \
             -v ${{ github.workspace }}/results:/results \
             grafana/k6 run /scripts/zgc_test.js \
